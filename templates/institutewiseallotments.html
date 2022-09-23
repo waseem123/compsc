@@ -295,7 +295,7 @@
         <div class="container-lg">
           <div class="car"></div>
           <div class="card mb-4">
-            <div class="card-header"><strong>Allotments</strong><span class="small ms-1">Institue-Employees</span></div>
+            <div class="card-header"><strong>Allotments</strong><span class="small ms-1">{{institutename}}</span></div>
             <div class="card-body">
 <!--              <p class="text-medium-emphasis small">Add <code>.table-hover</code> to enable a hover state on table rows within a <code> &lt;tbody&gt;</code>.</p>-->
 <!--              <p class="text-medium-emphasis small">These hoverable rows can also be combined with the striped variant:</p>-->
@@ -315,25 +315,27 @@
                     <table class="table table-striped table-hover table-bordered">
                       <thead>
                         <tr>
-                          <th scope="col">ID</th>
-                          <th scope="col">Name of Center</th>
+<!--                          <th scope="col">ID</th>-->
                           <th scope="col">Name of Employee</th>
+                          <th scope="col">Designation</th>
+                          <th scope="col">Organization</th>
                           <th scope="col">Appointed Designation</th>
-                          <th scope="col">Date of Training</th>
-                          <th scope="col">Date of Exam</th>
+                          <th scope="col">Mobile Number</th>
+                          <th scope="col">Date Of Examination</th>
                           <th scope="col">Sessions</th>
                         </tr>
                       </thead>
                       <tbody>
                         {% for i in allotmentlist %}
                         <tr>
-                          <th scope="row">{{i[0]}}</th>
-                          <td><a href="institutewise-allotment/{{i[1]}}">{{i[2]}}</a></td>
+<!--                          <th scope="row">{{i[0]}}</th>-->
+                          <td>{{i[2]}}</td>
+                          <td>{{i[3]}}</td>
                           <td>{{i[4]}}</td>
                           <td>{{i[5]}}</td>
                           <td>{{i[6]}}</td>
                           <td>{{i[7]}}</td>
-                          <td>{{i[8]}}</td>
+                          <td>{{i[9]}}</td>
                         </tr>
                       {% endfor %}
                       </tbody>

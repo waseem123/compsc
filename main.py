@@ -106,6 +106,18 @@ def examallotments():
         print(result)
     return render_template("examallotments.html",allotmentlist = result)
 
+@app.route("/institutewise-allotment/<string:centerid>")
+def institutewiseallotments(centerid):
+    connection = connectivity()
+    if (connection is not None):
+        sql = "SELECT c.center_name, a.emp_id, b.emp_name, b.emp_designation, b.emp_organization, a.appointed_designation, b.emp_mobileno, a.training_date, a.exam_date, a.no_of_sessions, a.status FROM tbl_employe_institut_mapping AS a JOIN tbl_employee AS b ON a.emp_id = b.emp_id JOIN tbl_examcenter AS c ON a.exam_center_id = c.center_id WHERE a.exam_center_id={}"
+        cursor = connection.cursor()
+        cursor.execute(sql.format(centerid))
+        result = cursor.fetchall()
+        cursor.close()
+        print(result)
+    return render_template("institutewiseallotments.html",allotmentlist = result, institutename = "("+centerid+") - "+result[0][0])
+
 
 if __name__ == '__main__':
     app.run(debug=True)
