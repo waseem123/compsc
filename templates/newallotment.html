@@ -296,62 +296,71 @@
           <div class="row">
             <div class="col-12">
               <div class="card mb-4">
-                <div class="card-header"><strong>Forms layout</strong><span class="small ms-1">Horizontal form</span></div>
+                <div class="card-header"><strong>New Allotment</strong><span class="small ms-1">Centerwise Employee Allotment</span></div>
                 <div class="card-body">
-                  <p class="text-medium-emphasis small">Create horizontal forms with the grid by adding the <code>.row</code> class to form groups and using the <code>.col-*-*</code> classes to specify the width of your labels and controls. Be sure to add <code>.col-form-label</code> to your <code> &lt;label&gt;</code>s as well so they’re vertically centered with their associated form controls.</p>
-                  <p class="text-medium-emphasis small">At times, you maybe need to use margin or padding utilities to create that perfect alignment you need. For example, we’ve removed the <code>padding-top</code> on our stacked radio inputs label to better align the text baseline.</p>
                   <div class="example">
-                    <ul class="nav nav-tabs" role="tablist">
-                      <li class="nav-item"><a class="nav-link active" data-coreui-toggle="tab" href="#preview-644" role="tab">
-                          <svg class="icon me-2">
-                            <use xlink:href="static/vendors/@coreui/icons/svg/free.svg#cil-media-play"></use>
-                          </svg>Preview</a></li>
-                      <li class="nav-item"><a class="nav-link" href="https://coreui.io/docs/forms/layout/#horizontal-form" target="_blank">
-                          <svg class="icon me-2">
-                            <use xlink:href="static/vendors/@coreui/icons/svg/free.svg#cil-code"></use>
-                          </svg>Code</a></li>
-                    </ul>
                     <div class="tab-content rounded-bottom">
                       <div class="tab-pane p-3 active preview" role="tabpanel" id="preview-644">
-                        <form>
+                        <form id="form_allotment" method="post" action="make-allotment">
                           <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label" for="inputEmail3">Email</label>
+                            <label class="col-sm-2 col-form-label" for="inputEmployee">Employee</label>
                             <div class="col-sm-10">
-                              <input class="form-control" id="inputEmail3" type="email">
+                              <select class="form-control" id="inputEmployee" name="inputEmployee">
+                                {% for i in employeedata %}
+                                <option value="{{i[0]}}">{{i[1]}}</option>
+                                {% endfor %}
+                              </select>
                             </div>
                           </div>
                           <div class="row mb-3">
-                            <label class="col-sm-2 col-form-label" for="inputPassword3">Password</label>
+                            <label class="col-sm-2 col-form-label" for="inputExamcenter">Exam Center</label>
                             <div class="col-sm-10">
-                              <input class="form-control" id="inputPassword3" type="password">
+                              <select class="form-control" id="inputExamcenter" name="inputExamcenter">
+                                {% for i in centerdata %}
+                                <option value="{{i[0]}}">{{i[1]}}</option>
+                                {% endfor %}
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="inputDesignation">Appointed Designation</label>
+                            <div class="col-sm-10">
+                              <select class="form-control" id="inputDesignation" name="inputDesignation">
+                                <option value="Center Head">Center Head</option>
+                                <option value="Assis. Center Head">Assis. Center Head</option>
+                                <option value="Supervisor">Supervisor</option>
+                                <option value="co-observer">co-observer</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="inputTrainingdate">Date of Training</label>
+                            <div class="col-sm-10">
+                              <input type="date" name="inputTrainingdate" class="form-control">
+                            </div>
+                          </div>
+                          <div class="row mb-3">
+                            <label class="col-sm-2 col-form-label" for="inputExamdate">Date of Exam</label>
+                            <div class="col-sm-10">
+                              <input type="date" name="inputExamdate" class="form-control">
                             </div>
                           </div>
                           <fieldset class="row mb-3">
-                            <legend class="col-form-label col-sm-2 pt-0">Radios</legend>
+                            <legend class="col-form-label col-sm-2 pt-0">Number of Sessions</legend>
                             <div class="col-sm-10">
                               <div class="form-check">
-                                <input class="form-check-input" id="gridRadios1" type="radio" name="gridRadios" value="option1" checked="">
-                                <label class="form-check-label" for="gridRadios1">First radio</label>
+                                <input class="form-check-input" id="no_of_session1" type="radio" name="no_of_session" value="1" checked="">
+                                <label class="form-check-label" for="gridRadios1">One</label>
                               </div>
                               <div class="form-check">
-                                <input class="form-check-input" id="gridRadios2" type="radio" name="gridRadios" value="option2">
-                                <label class="form-check-label" for="gridRadios2">Second radio</label>
-                              </div>
-                              <div class="form-check disabled">
-                                <input class="form-check-input" id="gridRadios3" type="radio" name="gridRadios" value="option3" disabled="">
-                                <label class="form-check-label" for="gridRadios3">Third disabled radio</label>
+                                <input class="form-check-input" id="no_of_session2" type="radio" name="no_of_session" value="2">
+                                <label class="form-check-label" for="gridRadios2">Two</label>
                               </div>
                             </div>
                           </fieldset>
-                          <div class="row mb-3">
-                            <div class="col-sm-10 offset-sm-2">
-                              <div class="form-check">
-                                <input class="form-check-input" id="gridCheck1" type="checkbox">
-                                <label class="form-check-label" for="gridCheck1">Example checkbox</label>
-                              </div>
-                            </div>
-                          </div>
-                          <button class="btn btn-primary" type="submit">Sign in</button>
+                          <button class="btn btn-primary" type="submit">Save Allotment</button>
                         </form>
                       </div>
                     </div>
