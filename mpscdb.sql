@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 22, 2022 at 04:28 PM
+-- Generation Time: Sep 23, 2022 at 05:00 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.2.34
 
@@ -67,7 +67,11 @@ CREATE TABLE `tbl_employe_institut_mapping` (
 --
 
 INSERT INTO `tbl_employe_institut_mapping` (`mapping_id`, `exam_center_id`, `emp_id`, `appointed_designation`, `exam_date`, `no_of_sessions`, `status`, `training_date`) VALUES
-(1, 1, 1, 'केंद्रप्रमुख', '2022-08-21', 2, 1, '2022-08-20');
+(1, 1, 1, 'केंद्रप्रमुख', '2022-08-21', 2, 1, '2022-08-20'),
+(2, 1, 1, 'Center Head', '2022-09-24', 2, 0, '2022-09-23'),
+(3, 1, 1, 'Center Head', '2022-09-24', 2, 1, '2022-09-23'),
+(4, 1, 1, 'Center Head', '2022-09-24', 2, 1, '2022-09-23'),
+(5, 1, 1, 'Center Head', '2022-09-24', 2, 1, '2022-09-23');
 
 -- --------------------------------------------------------
 
@@ -83,6 +87,7 @@ CREATE TABLE `tbl_examcenter` (
   `center_contact_person` varchar(50) NOT NULL,
   `center_contact` varchar(13) NOT NULL,
   `center_email` varchar(50) NOT NULL,
+  `strength` int(11) NOT NULL,
   `center_availability` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -90,8 +95,8 @@ CREATE TABLE `tbl_examcenter` (
 -- Dumping data for table `tbl_examcenter`
 --
 
-INSERT INTO `tbl_examcenter` (`center_id`, `center_name`, `center_code`, `center_address`, `center_contact_person`, `center_contact`, `center_email`, `center_availability`) VALUES
-(1, 'एस. व्ही. सी. एस. हायस्कूल अँड ज्युनिअर कॉलेज, एम. आय. डी. सी. अक्कलकोट रोड सोलापूर', '', 'अक्कलकोट रोड सोलापूर', '', '', '', 1);
+INSERT INTO `tbl_examcenter` (`center_id`, `center_name`, `center_code`, `center_address`, `center_contact_person`, `center_contact`, `center_email`, `strength`, `center_availability`) VALUES
+(1, 'एस. व्ही. सी. एस. हायस्कूल अँड ज्युनिअर कॉलेज, एम. आय. डी. सी. अक्कलकोट रोड सोलापूर', '', 'अक्कलकोट रोड सोलापूर', '', '9096288255', '', 1000, 1);
 
 --
 -- Indexes for dumped tables
@@ -131,7 +136,7 @@ ALTER TABLE `tbl_employee`
 -- AUTO_INCREMENT for table `tbl_employe_institut_mapping`
 --
 ALTER TABLE `tbl_employe_institut_mapping`
-  MODIFY `mapping_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `mapping_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `tbl_examcenter`
