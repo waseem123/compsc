@@ -6,12 +6,24 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return "<h1>Welcome to home page</h1>"
+    return render_template("index.html")
 
 
 @app.route("/login")
 def login():
     return render_template("login.html")
+
+@app.route("/tables")
+def tables():
+    return render_template("tables.html")
+
+@app.route("/employees")
+def employees():
+    return render_template("employees.html")
+
+@app.route("/exam-centers")
+def examcenters():
+    return render_template("examcenters.html")
 
 
 if __name__ == '__main__':
