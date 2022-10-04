@@ -4,9 +4,7 @@ import _mysql_connector as c
 
 from googletrans import Translator
 
-
 app = Flask(__name__)
-
 
 def connectivity():
     try:
@@ -49,8 +47,8 @@ def employees():
             # print(result)
             for i in result:
                 print(i[1])
-                dat = translator.translate(i[0], src='en', dest='mr')
-                print(dat)
+                dat = translator.translate(i[4], src='en', dest='mr')
+                print(dat.text)
         return render_template("employees.html", employeelist=result)
     except c.MySQLInterfaceError as ex:
         print("Exception", ex)
