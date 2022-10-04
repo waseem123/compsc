@@ -40,15 +40,16 @@ def employees():
         if (connection is not None):
             translator = Translator()
             sql = "SELECT `emp_id`, `emp_name`, `emp_designation`, `emp_organization`, `emp_mobileno` FROM `tbl_employee`"
+            # sql = "SELECT a.`emp_id`, a.`emp_name`, a.`emp_designation`, a.`emp_organization`, a.`emp_mobileno`,b.category_name FROM `tbl_employee` AS a JOIN tbl_empcategory AS b ON a.emp_category=b.category_id WHERE a.emp_category=1"
             cursor = connection.cursor()
             cursor.execute(sql)
             result = cursor.fetchall()
             cursor.close()
             # print(result)
-            for i in result:
-                print(i[1])
-                dat = translator.translate(i[4], src='en', dest='mr')
-                print(dat.text)
+            # for i in result:
+            #     print(i[1])
+            #     dat = translator.translate(i[5], src='en', dest='mr')
+            #     print(dat.text)
         return render_template("employees.html", employeelist=result)
     except c.MySQLInterfaceError as ex:
         print("Exception", ex)
