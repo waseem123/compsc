@@ -6,6 +6,7 @@ from googletrans import Translator
 
 app = Flask(__name__)
 
+
 def connectivity():
     try:
         return connector.connect(host="localhost", user="root", password="", database="mpscdb")
@@ -81,9 +82,24 @@ def exams():
         cursor.execute(sql)
         result = cursor.fetchall()
         cursor.close()
-
     return render_template("exams.html", centerlist=result)
 
+
+@app.route("/new-exam", methods=['GET', 'POST'])
+def newexam():
+    examtitle = request.form['inputExamTitle']
+    examdate = request.form['inputExamdate']
+    trainingdate = request.form['inputTrainingdate']
+    trainingvenue = request.form['inputTrainingvenue']
+    connection = connectivity()
+    if (connection is not None):
+        sql = "INSERT INTO `tbl_exam`(`exam_title`, `exam_date`, `training_date`, `training_venue`) VALUES ('{}','{}','{}','{}')".format(examtitle,examdate,trainingdate,trainingvenue)
+        cursor = connection.cursor()
+        cursor.execute(sql)
+        connection.commit()
+        cursor.close()
+    # return render_template("exams.html", centerlist=result)
+        return "<script>alert('Exam Added successfully'); location.href='exams';</script>"
 
 @app.route("/new-allotment")
 def newallotment():

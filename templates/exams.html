@@ -58,6 +58,11 @@
 
 
 
+
+
+
+
+
     </script>
     <link rel="canonical" href="https://coreui.io/docs/content/tables/">
 </head>
@@ -253,7 +258,12 @@
         <div class="container-lg">
             <div class="car"></div>
             <div class="card mb-4">
-                <div class="card-header"><strong>Tables</strong><span class="small ms-1">Hoverable rows</span></div>
+                <div class="card-header">
+                    <strong>Tables</strong>
+                    <span class="small ms-1">Hoverable rows</span>
+                    <button class="btn btn-sm btn-primary float-end" data-coreui-toggle="modal"
+                            data-coreui-target="#exampleModal"><span class="small ms-1">Add New Exam</span></button>
+                </div>
                 <div class="card-body">
                     <!--              <p class="text-medium-emphasis small">Add <code>.table-hover</code> to enable a hover state on table rows within a <code> &lt;tbody&gt;</code>.</p>-->
                     <!--              <p class="text-medium-emphasis small">These hoverable rows can also be combined with the striped variant:</p>-->
@@ -292,9 +302,9 @@
                                         <!--                          <td>{{i[3]}}</td>-->
                                         <td>{{i[3]}}</td>
                                         <td>{{i[4]}}</td>
-<!--                                        <td class="label label-primary">-->
-<!--                                            <button class="btn btn-primary">Available</button>-->
-<!--                                        </td>-->
+                                        <!--                                        <td class="label label-primary">-->
+                                        <!--                                            <button class="btn btn-primary">Available</button>-->
+                                        <!--                                        </td>-->
                                     </tr>
                                     {% endfor %}
                                     </tbody>
@@ -303,6 +313,59 @@
                         </div>
                     </div>
                 </div>
+
+                <!--CORE UI MODAL FOR EXAM CREATION START-->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                     aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">CREATE NEW EXAM</h5>
+                                <button type="button" class="btn-close" data-coreui-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!--EXAM CREATION FORM START-->
+                                <form id="form_allotment" method="post" action="new-exam">
+                                    <div class="row mb-3">
+                                        <label class="col-sm-2 col-form-label" for="inputEmployee">परीक्षा</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="inputExamTitle" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="col-sm-2 col-form-label" for="inputExamdate">परीक्षेचा दिवस</label>
+                                        <div class="col-sm-10">
+                                            <input type="date" name="inputExamdate" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="col-sm-2 col-form-label" for="inputTrainingdate">प्रशिक्षणाचा दिवस</label>
+                                        <div class="col-sm-10">
+                                            <input type="date" name="inputTrainingdate" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="row mb-3">
+                                        <label class="col-sm-2 col-form-label" for="inputTrainingvenue">प्रशिक्षणाचे स्थान</label>
+                                        <div class="col-sm-10">
+                                            <input type="text" name="inputTrainingvenue" class="form-control">
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary float-end" type="submit">Save</button>
+                                    <button type="button" class="btn btn-secondary float-end mr-auto" data-coreui-dismiss="modal">Close
+                                </button>
+                                </form>
+                                <!--EXAM CREATION FORM END-->
+                            </div>
+                            <!--<div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal">Close
+                                </button>
+                                <button type="button" class="btn btn-primary">Save changes</button>
+                            </div>-->
+                        </div>
+                    </div>
+                </div>
+                <!--CORE UI MODAL FOR EXAM CREATION ENDS-->
             </div>
 
         </div>
