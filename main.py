@@ -2,6 +2,9 @@ from flask import Flask, url_for, render_template, request, redirect
 import mysql.connector as connector
 import _mysql_connector as c
 
+from googletrans import Translator
+
+
 app = Flask(__name__)
 
 
@@ -37,12 +40,17 @@ def employees():
     try:
         connection = connectivity()
         if (connection is not None):
+            translator = Translator()
             sql = "SELECT `emp_id`, `emp_name`, `emp_designation`, `emp_organization`, `emp_mobileno` FROM `tbl_employee`"
             cursor = connection.cursor()
             cursor.execute(sql)
             result = cursor.fetchall()
             cursor.close()
             # print(result)
+            for i in result:
+                print(i[1])
+                dat = translator.translate(i[0], src='en', dest='mr')
+                print(dat)
         return render_template("employees.html", employeelist=result)
     except c.MySQLInterfaceError as ex:
         print("Exception", ex)
