@@ -1,11 +1,15 @@
 from flask import Flask, url_for, render_template, request, redirect
 import mysql.connector as connector
+import _mysql_connector as c
 
 app = Flask(__name__)
 
 
 def connectivity():
-    return connector.connect(host="localhost", user="root", password="", database="mpscdb")
+    try:
+        return connector.connect(host="localhost", user="root", password="", database="mpscdb")
+    except c.MySQLInterfaceError as ex:
+        print(ex)
 
 
 @app.route("/")
@@ -30,15 +34,22 @@ def layout():
 
 @app.route("/employees")
 def employees():
-    connection = connectivity()
-    if (connection is not None):
-        sql = "SELECT `emp_id`, `emp_name`, `emp_designation`, `emp_organization`, `emp_mobileno` FROM `tbl_employee`"
-        cursor = connection.cursor()
-        cursor.execute(sql)
-        result = cursor.fetchall()
-        cursor.close()
-        # print(result)
-    return render_template("employees.html", employeelist=result)
+    try:
+        connection = connectivity()
+        if (connection is not None):
+            sql = "SELECT `emp_id`, `emp_name`, `emp_designation`, `emp_organization`, `emp_mobileno` FROM `tbl_employee`"
+            cursor = connection.cursor()
+            cursor.execute(sql)
+            result = cursor.fetchall()
+            cursor.close()
+            # print(result)
+        return render_template("employees.html", employeelist=result)
+    except c.MySQLInterfaceError as ex:
+        print("Exception", ex)
+        return "<h2>COULD NOT MAKE A SECURE CONNECTION</h2>"
+    except connector.errors.DatabaseError as ex:
+        print("Exception", ex)
+        return "<h2>COULD NOT MAKE A SECURE CONNECTION</h2>"
 
 
 @app.route("/exam-centers")
@@ -52,6 +63,19 @@ def examcenters():
         cursor.close()
 
     return render_template("examcenters.html", centerlist=result)
+
+
+@app.route("/exams")
+def exams():
+    connection = connectivity()
+    if (connection is not None):
+        sql = "SELECT `exam_id`, `exam_title`, `exam_date`, `training_date`, `training_venue`  FROM `tbl_exam` ORDER BY exam_id DESC;"
+        cursor = connection.cursor()
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        cursor.close()
+
+    return render_template("exams.html", centerlist=result)
 
 
 @app.route("/new-allotment")
@@ -85,7 +109,7 @@ def makeallotment():
     print(empid, examdate, sessions, centerid)
     connection = connectivity()
     if (connection is not None):
-        sql = "INSERT INTO `tbl_employe_institut_mapping`(`exam_center_id`, `emp_id`, `appointed_designation`,`training_date`, `exam_date`, `no_of_sessions`,`status`) VALUES ({},{},'{}','{}','{}',{},1)"
+        sql = "INSERT INTO `tbl_allotment`(`exam_center_id`, `emp_id`, `appointed_designation`,`training_date`, `exam_date`, `no_of_sessions`,`status`) VALUES ({},{},'{}','{}','{}',{},1)"
 
         cursor = connection.cursor()
         cursor.execute(sql.format(centerid, empid, designation, trainingdate, examdate, sessions))
@@ -98,25 +122,27 @@ def makeallotment():
 def examallotments():
     connection = connectivity()
     if (connection is not None):
-        sql = "SELECT a.mapping_id, a.exam_center_id, c.center_name, a.emp_id, b.emp_name, a.appointed_designation, a.training_date, a.exam_date, a.no_of_sessions, a.status FROM tbl_employe_institut_mapping AS a JOIN tbl_employee AS b ON a.emp_id = b.emp_id JOIN tbl_examcenter AS c ON a.exam_center_id = c.center_id"
+        sql = "SELECT a.mapping_id, a.exam_center_id, c.center_name, a.emp_id, b.emp_name, a.appointed_designation, a.training_date, a.exam_date, a.no_of_sessions, a.status FROM tbl_allotment AS a JOIN tbl_employee AS b ON a.emp_id = b.emp_id JOIN tbl_examcenter AS c ON a.exam_center_id = c.center_id"
         cursor = connection.cursor()
         cursor.execute(sql)
         result = cursor.fetchall()
         cursor.close()
         print(result)
-    return render_template("examallotments.html",allotmentlist = result)
+    return render_template("examallotments.html", allotmentlist=result)
+
 
 @app.route("/institutewise-allotment/<string:centerid>")
 def institutewiseallotments(centerid):
     connection = connectivity()
     if (connection is not None):
-        sql = "SELECT c.center_name, a.emp_id, b.emp_name, b.emp_designation, b.emp_organization, a.appointed_designation, b.emp_mobileno, a.training_date, a.exam_date, a.no_of_sessions, a.status FROM tbl_employe_institut_mapping AS a JOIN tbl_employee AS b ON a.emp_id = b.emp_id JOIN tbl_examcenter AS c ON a.exam_center_id = c.center_id WHERE a.exam_center_id={}"
+        sql = "SELECT c.center_name, a.emp_id, b.emp_name, b.emp_designation, b.emp_organization, a.appointed_designation, b.emp_mobileno, a.training_date, a.exam_date, a.no_of_sessions, a.status FROM tbl_allotment AS a JOIN tbl_employee AS b ON a.emp_id = b.emp_id JOIN tbl_examcenter AS c ON a.exam_center_id = c.center_id WHERE a.exam_center_id={}"
         cursor = connection.cursor()
         cursor.execute(sql.format(centerid))
         result = cursor.fetchall()
         cursor.close()
         print(result)
-    return render_template("institutewiseallotments.html",allotmentlist = result, institutename = "("+centerid+") - "+result[0][0])
+    return render_template("institutewiseallotments.html", allotmentlist=result,
+                           institutename="(" + centerid + ") - " + result[0][0])
 
 
 if __name__ == '__main__':
