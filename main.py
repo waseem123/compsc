@@ -60,8 +60,7 @@ def employees():
         return "<h2>COULD NOT MAKE A SECURE CONNECTION</h2>"
 
 
-@app.route("/exam-centers")
-def examcenters():
+def getExamCenters():
     connection = connectivity()
     if (connection is not None):
         sql = "SELECT `center_id`, `center_name`, `center_address`, `center_contact`, `strength`, `center_availability` FROM tbl_examcenter`"
@@ -69,8 +68,12 @@ def examcenters():
         cursor.execute(sql)
         result = cursor.fetchall()
         cursor.close()
+        return result
 
-    return render_template("examcenters.html", centerlist=result)
+
+@app.route("/exam-centers")
+def examcenters():
+    return render_template("examcenters.html", centerlist=getExamCenters())
 
 
 @app.route("/exams")
@@ -93,22 +96,24 @@ def newexam():
     trainingvenue = request.form['inputTrainingvenue']
     connection = connectivity()
     if (connection is not None):
-        sql = "INSERT INTO `tbl_exam`(`exam_title`, `exam_date`, `training_date`, `training_venue`) VALUES ('{}','{}','{}','{}')".format(examtitle,examdate,trainingdate,trainingvenue)
+        sql = "INSERT INTO `tbl_exam`(`exam_title`, `exam_date`, `training_date`, `training_venue`) VALUES ('{}','{}','{}','{}')".format(
+            examtitle, examdate, trainingdate, trainingvenue)
         cursor = connection.cursor()
         cursor.execute(sql)
         connection.commit()
         cursor.close()
-    # return render_template("exams.html", centerlist=result)
+        # return render_template("exams.html", centerlist=result)
         return "<script>alert('Exam Added successfully'); location.href='exams';</script>"
+
 
 @app.route("/new-allotment")
 def newallotment():
     connection = connectivity()
     if (connection is not None):
-        sql = "SELECT `emp_id`, `emp_name` FROM `tbl_employee`"
+        sql = "SELECT `exam_id`, `exam_title`, `exam_date`, `training_date`, `training_venue`  FROM `tbl_exam` ORDER BY exam_id DESC;"
         cursor = connection.cursor()
         cursor.execute(sql)
-        empresult = cursor.fetchall()
+        examresult = cursor.fetchall()
         cursor.close()
 
     if (connection is not None):
@@ -117,7 +122,71 @@ def newallotment():
         cursor.execute(sql)
         centerresult = cursor.fetchall()
         cursor.close()
-    return render_template("newallotment.html", employeedata=empresult, centerdata=centerresult)
+    return render_template("newallotment.html", examdata=examresult, centerdata=centerresult)
+
+
+def getClassOne():
+    connection = connectivity()
+    if (connection is not None):
+        sql = "SELECT `emp_id`, `emp_name` FROM `tbl_employee` WHERE emp_category IN (1,2) AND emp_status = 0"
+        cursor = connection.cursor()
+        cursor.execute(sql)
+        classone = cursor.fetchall()
+        cursor.close()
+        return classone
+
+
+def getSrClerk():
+    connection = connectivity()
+    if (connection is not None):
+        sql = "SELECT `emp_id`, `emp_name` FROM `tbl_employee` WHERE emp_category = 2 AND emp_status = 0"
+        cursor = connection.cursor()
+        cursor.execute(sql)
+        srclerk = cursor.fetchall()
+        cursor.close()
+        return srclerk
+
+
+def getClerk():
+    connection = connectivity()
+    if (connection is not None):
+        sql = "SELECT `emp_id`, `emp_name` FROM `tbl_employee` WHERE emp_category = 3 AND emp_status = 0"
+        cursor = connection.cursor()
+        cursor.execute(sql)
+        clerk = cursor.fetchall()
+        cursor.close()
+        return clerk
+
+
+def getPeon():
+    connection = connectivity()
+    if (connection is not None):
+        sql = "SELECT `emp_id`, `emp_name` FROM `tbl_employee` WHERE emp_category = 4 AND emp_status = 0"
+        cursor = connection.cursor()
+        cursor.execute(sql)
+        peon = cursor.fetchall()
+        cursor.close()
+        return peon
+
+
+@app.route("/create-allotment", methods=['GET', 'POST'])
+def createallotment():
+    exam = request.form['inputExam']
+    examcenter = request.form['inputExamcenter']
+    connection = connectivity()
+    print(examcenter)
+    if (connection is not None):
+        sql = "SELECT `center_id`, `center_name`, `center_address`, `center_contact`, `strength`, `center_availability` FROM `tbl_examcenter` WHERE center_id={}".format(
+            examcenter)
+        print(sql)
+        cursor = connection.cursor()
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        print(result)
+        cursor.close()
+    return render_template("createallotment.html", strength=result[0][4], classone=getClassOne(), srclerk=getSrClerk(),
+                           clerk=getClerk(),
+                           peon=getPeon())
 
 
 @app.route("/make-allotment", methods=["GET", "POST"])

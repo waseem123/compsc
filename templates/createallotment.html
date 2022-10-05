@@ -57,6 +57,7 @@
       gtag('config', 'UA-118965717-5');
 
 
+
     </script>
     <link rel="canonical" href="https://coreui.io/docs/forms/layout/">
 </head>
@@ -259,22 +260,22 @@
                             <div class="example">
                                 <div class="tab-content rounded-bottom">
                                     <div class="tab-pane p-3 active preview" role="tabpanel" id="preview-644">
-                                        <form id="form_allotment" method="post" action="create-allotment">
+                                        <form id="form_allotment" method="post" action="make-allotment">
                                             <div class="row mb-3">
                                                 <label class="col-sm-2 col-form-label"
-                                                       for="inputExam">परीक्षा</label>
+                                                       for="inputEmployee">Employee</label>
                                                 <div class="col-sm-10">
-                                                    <select class="form-control" id="inputExam"
-                                                            name="inputExam">
-                                                        {% for i in examdata %}
+                                                    <select class="form-control" id="inputEmployee"
+                                                            name="inputEmployee">
+                                                        {% for i in employeedata %}
                                                         <option value="{{i[0]}}">{{i[1]}}</option>
                                                         {% endfor %}
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
-                                                <label class="col-sm-2 col-form-label" for="inputExamcenter">परीक्षा
-                                                    केंद्र</label>
+                                                <label class="col-sm-2 col-form-label" for="inputExamcenter">Exam
+                                                    Center</label>
                                                 <div class="col-sm-10">
                                                     <select class="form-control" id="inputExamcenter"
                                                             name="inputExamcenter">
@@ -284,7 +285,82 @@
                                                     </select>
                                                 </div>
                                             </div>
-                                            <button class="btn btn-primary float-end" type="submit">Create Allotment</button>
+
+                                            <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label" for="inputDesignation">Appointed
+                                                    Designation</label>
+                                                <div class="col-sm-10">
+                                                    <select class="form-control" id="inputDesignation"
+                                                            name="inputDesignation">
+                                                        <option value="Center Head">Center Head</option>
+                                                        <option value="Assis. Center Head">Assis. Center Head</option>
+                                                        <option value="Supervisor">Supervisor</option>
+                                                        <option value="co-observer">co-observer</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label" for="inputTrainingdate">Date of
+                                                    Training</label>
+                                                <div class="col-sm-10">
+                                                    <input type="date" name="inputTrainingdate" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label" for="inputExamdate">Date of
+                                                    Exam</label>
+                                                <div class="col-sm-10">
+                                                    <input type="date" name="inputExamdate" class="form-control">
+                                                </div>
+                                            </div>
+                                            <fieldset class="row mb-3">
+                                                <legend class="col-form-label col-sm-2 pt-0">Number of Sessions</legend>
+                                                <div class="col-sm-10">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" id="no_of_session1" type="radio"
+                                                               name="no_of_session" value="1" checked="">
+                                                        <label class="form-check-label" for="gridRadios1">One</label>
+                                                    </div>
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" id="no_of_session2" type="radio"
+                                                               name="no_of_session" value="2">
+                                                        <label class="form-check-label" for="gridRadios2">Two</label>
+                                                    </div>
+                                                </div>
+                                            </fieldset>
+                                            <button class="btn btn-primary float-end" type="submit">Save Allotment</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="card mb-4">
+                        <div class="card-header"><strong>Centerwise Employee Allotment</strong><span class="small ms-1">[पर्यवेक्षक - {{strength}}]</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="example">
+                                <div class="tab-content rounded-bottom">
+                                    <div class="tab-pane p-3 active preview" role="tabpanel" id="preview-644">
+                                        <form id="form_allotment" method="post" action="make-allotment">
+                                            {% for i in range(strength) %}
+                                                <div class="row mb-3">
+                                                <label class="col-sm-2 col-form-label"
+                                                       for="inputEmployee">Employee- {{i+1}}</label>
+                                                <div class="col-sm-10">
+                                                    <select class="form-control" id="inputEmployee"
+                                                            name="inputEmployee">
+                                                        {% for i in clerk %}
+                                                        <option value="{{i[0]}}">{{i[1]}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            {% endfor %}
+                                            <button class="btn btn-primary float-end" type="submit">Save Allotment</button>
                                         </form>
                                     </div>
                                 </div>
